@@ -1,0 +1,67 @@
+{
+  "sellers": [
+    {
+      "id": 0,
+      "companyName": "Microsoft",
+      "hqAddress": "One Microsoft Way Redmond, Washington, U.S",
+      "isActive": true
+    },
+    {
+      "id": 1,
+      "companyName": "Oracle",
+      "hqAddress": "Austin, Texas, U.S",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "companyName": "Facebook",
+      "hqAddress": "Menlo Park, California, U.S",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "companyName": "Amazon",
+      "hqAddress": "Seattle, Washington, U.S",
+      "isActive": true
+    }
+  ],
+  "customers": [
+    {
+      "id": 0,
+      "name": "Marko",
+      "surname": "Marković",
+      "address": "Mladena Stojanovića 199, Banja Luka, BiH",
+      "age": 30
+    },
+    {
+      "id": 1,
+      "name": "Petar",
+      "surname": "Petrović",
+      "address": "Meše Selimovića 300, Banja Luka, BiH",
+      "age": 55
+    },
+    {
+      "id": 2,
+      "name": "Jovana",
+      "surname": "Jovanović",
+      "address": "Miše Stupara 201, Banja Luka, BiH",
+      "age": 30
+    },
+    {
+      "id": 3,
+      "name": "Jelena",
+      "surname": "Jelenović",
+      "address": "Ive Andrića 656, Banja Luka, BiH",
+      "age": 45
+    }
+  ],
+  "invoices": [
+    {
+      "id": 0,
+      "date": "Thu Jan 05 2023 17:49:11 GMT+0100 (Central European Standard Time)",
+      "amount": 3000,
+      "customerId": 0,
+      "sellerId": 0
+    }
+  ]
+}
