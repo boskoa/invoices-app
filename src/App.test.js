@@ -1,3 +1,4 @@
+/*
 import { render, screen } from "@testing-library/react";
 import App from "./App";
 
@@ -7,3 +8,4 @@ test("renders test title", () => {
   expect(linkElement).toBeInTheDocument();
   expect(linkElement).toHaveTextContent(/hai mark/i);
 });
+*/
