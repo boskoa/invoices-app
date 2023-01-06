@@ -1,78 +1,66 @@
-import { styled } from "@mui/material/styles";
-import {
-  Box,
-  SpeedDialAction,
-  SpeedDialIcon,
-  SpeedDial,
-  IconButton,
-} from "@mui/material";
+import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link } from "react-router-dom";
-
-const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
-  "&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight": {
-    margin: theme.spacing(1),
-  },
-}));
-
-const actions = [
-  {
-    icon: (
-      <IconButton component={Link} to="/invoices">
-        <ReceiptLongIcon />
-      </IconButton>
-    ),
-    name: "Invoices",
-  },
-  {
-    icon: (
-      <IconButton component={Link} to="/sellers">
-        <StorefrontIcon />
-      </IconButton>
-    ),
-    name: "Sellers",
-  },
-  {
-    icon: (
-      <IconButton component={Link} to="/customers">
-        <ShoppingCartIcon />
-      </IconButton>
-    ),
-    name: "Customers",
-  },
-];
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function NavBar() {
+  const [selected, setSelected] = useState(null);
+  const location = useLocation().pathname;
+  console.log("LOCATION", location);
+
+  function handleChange(event, nextSelected) {
+    setSelected(nextSelected);
+  }
+
+  useEffect(() => {
+    setSelected(location);
+
+    return () => setSelected(null);
+  }, [location]);
+
   return (
     <Box
       sx={{
-        transform: "translateZ(0px)",
-        flexGrow: 1,
-        width: 70,
+        margin: 1,
         position: "fixed",
       }}
     >
-      <Box
-        sx={{
-          height: 250,
-        }}
+      <ToggleButtonGroup
+        sx={{ width: "40px" }}
+        orientation="vertical"
+        value={selected}
+        exclusive
+        color="warning"
+        onChange={handleChange}
+        aria-label="vertical button group"
       >
-        <StyledSpeedDial
-          ariaLabel="SpeedDial navbar"
-          icon={<SpeedDialIcon />}
-          direction="down"
+        <ToggleButton
+          component={Link}
+          to="/invoices"
+          value="/invoices"
+          title="Invoices"
         >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-            />
-          ))}
-        </StyledSpeedDial>
-      </Box>
+          <ReceiptLongIcon />
+        </ToggleButton>
+        <ToggleButton
+          component={Link}
+          to="/sellers"
+          value="/sellers"
+          title="Sellers"
+        >
+          <StorefrontIcon />
+        </ToggleButton>
+        <ToggleButton
+          component={Link}
+          to="/customers"
+          value="/customers"
+          title="Customers"
+        >
+          <ShoppingCartIcon />
+        </ToggleButton>
+      </ToggleButtonGroup>
     </Box>
   );
 }

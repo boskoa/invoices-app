@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AllProviders from "./AllProviders";
 import HomePage from "./components/HomePage";
+import PageContainer from "./components/PageContainer";
 import MyAppBar from "./components/MyAppBar";
 import NavBar from "./components/NavBar";
 
@@ -17,36 +18,38 @@ function App() {
         <Router>
           <MyAppBar />
           <NavBar />
-          <Routes>
-            <Route
-              path="/invoices"
-              element={
-                <Suspense fallback="Loading...">
-                  {/*} ubaciti spiner*/}
-                  <LazyInvoices />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/sellers"
-              element={
-                <Suspense fallback="Loading...">
-                  {/*} ubaciti spiner*/}
-                  <LazySellers />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/customers"
-              element={
-                <Suspense fallback="Loading...">
-                  {/*} ubaciti spiner*/}
-                  <LazyCustomers />
-                </Suspense>
-              }
-            />
-            <Route path="/" element={<HomePage />} />
-          </Routes>
+          <PageContainer>
+            <Routes>
+              <Route
+                path="/invoices"
+                element={
+                  <Suspense fallback="Loading...">
+                    {/*} ubaciti spiner*/}
+                    <LazyInvoices />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/sellers"
+                element={
+                  <Suspense fallback="Loading...">
+                    {/*} ubaciti spiner*/}
+                    <LazySellers />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/customers"
+                element={
+                  <Suspense fallback="Loading...">
+                    {/*} ubaciti spiner*/}
+                    <LazyCustomers />
+                  </Suspense>
+                }
+              />
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+          </PageContainer>
         </Router>
       </AllProviders>
     </Box>

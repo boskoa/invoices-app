@@ -14,11 +14,16 @@ function ThemeSwitch() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("THEME CHANGE", theme);
-  }, [theme]);
+    const oldTheme = window.localStorage.getItem("invoiceAppTheme");
+    dispatch(changeTheme(oldTheme));
+  }, []);
 
   return (
-    <Stack direction="row" alignItems="center" sx={{ m: "3px", ml: "auto" }}>
+    <Stack
+      direction="row"
+      alignItems="center"
+      sx={{ m: { xs: "auto", sm: "5px" } }}
+    >
       <LightModeIcon
         fontSize="small"
         color={theme === "light" ? "warning" : "inherit"}
@@ -26,9 +31,11 @@ function ThemeSwitch() {
       <Switch
         size="small"
         checked={theme === "dark"}
-        onClick={() =>
-          dispatch(changeTheme(theme === "light" ? "dark" : "light"))
-        }
+        onClick={() => {
+          const newTheme = theme === "light" ? "dark" : "light";
+          dispatch(changeTheme(newTheme));
+          window.localStorage.setItem("invoiceAppTheme", newTheme);
+        }}
         title="set dark mode"
       />
       <DarkModeIcon
