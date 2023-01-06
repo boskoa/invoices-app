@@ -3,7 +3,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-function TableButtons() {
+function TableButtons({ setOpenNewModal }) {
   return (
     <ButtonGroup
       aria-label="table button group"
@@ -12,7 +12,7 @@ function TableButtons() {
       size="small"
       sx={{ m: 2 }}
     >
-      <Button>
+      <Button onClick={() => setOpenNewModal(true)}>
         <AddCircleOutlineIcon />
       </Button>
       <Button>

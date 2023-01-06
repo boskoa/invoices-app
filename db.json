@@ -62,6 +62,47 @@
       "amount": 3000,
       "customerId": 0,
       "sellerId": 0
+    },
+    {
+      "id": 1,
+      "date": "Fri Jan 06 2023 23:01:01 GMT+0100 (Central European Standard Time)",
+      "amount": 5000,
+      "customerId": 1,
+      "sellerId": 1
+    },
+    {
+      "id": 2,
+      "date": "Fri Jan 06 2023 23:06:58 GMT+0100 (Central European Standard Time)",
+      "amount": 10000,
+      "customerId": 2,
+      "sellerId": 2
+    },
+    {
+      "id": 3,
+      "date": "Fri Jan 06 2023 23:08:11 GMT+0100 (Central European Standard Time)",
+      "amount": 15000,
+      "customerId": 3,
+      "sellerId": 1
+    },
+    {
+      "id": 4,
+      "date": "Fri Jan 06 2023 23:18:54 GMT+0100 (Central European Standard Time)",
+      "amount": 9000,
+      "customerId": 1,
+      "sellerId": 3,
+      "customer": {
+        "id": 1,
+        "name": "Petar",
+        "surname": "Petrović",
+        "address": "Meše Selimovića 300, Banja Luka, BiH",
+        "age": 55
+      },
+      "seller": {
+        "id": 3,
+        "companyName": "Amazon",
+        "hqAddress": "Seattle, Washington, U.S",
+        "isActive": true
+      }
     }
   ]
 }

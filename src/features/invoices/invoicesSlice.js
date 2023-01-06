@@ -26,6 +26,15 @@ export const getAllInvoices = createAsyncThunk(
   }
 );
 
+export const postNewInvoice = createAsyncThunk(
+  "invoices/postNewInvoice",
+  async (data) => {
+    const response = await axios.post(INVOICES_URL, data);
+    console.log("AXIOS POST", response);
+    return response.data;
+  }
+);
+
 const invoicesSlice = createSlice({
   name: "invoices",
   initialState,
@@ -49,6 +58,26 @@ const invoicesSlice = createSlice({
         invoicesAdapter.upsertMany(state, invoices);
       })
       .addCase(getAllInvoices.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(postNewInvoice.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(postNewInvoice.fulfilled, (state, action) => {
+        state.loading = false;
+        const invoice = {
+          id: action.payload.id,
+          date: action.payload.date,
+          amount: action.payload.amount,
+          customerId: action.payload.customerId,
+          sellerId: action.payload.sellerId,
+          customer: `${action.payload.customer.name} ${action.payload.customer.surname}`,
+          seller: action.payload.seller.companyName,
+        };
+        invoicesAdapter.addOne(state, invoice);
+      })
+      .addCase(postNewInvoice.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

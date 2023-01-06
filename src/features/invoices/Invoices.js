@@ -1,4 +1,5 @@
 import { Stack } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DataTable from "../../components/DataTable";
 import PageTitle from "../../components/PageTitle";
@@ -8,6 +9,7 @@ import {
   selectInvoicesError,
   selectInvoicesLoading,
 } from "./invoicesSlice";
+import NewInvoiceModal from "./NewInvoiceModal";
 
 const formatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -18,6 +20,11 @@ function Invoices() {
   const invoices = useSelector(selectAllInvoices);
   const loading = useSelector(selectInvoicesLoading);
   const error = useSelector(selectInvoicesError);
+  const [openNewModal, setOpenNewModal] = useState(false);
+
+  useEffect(() => {
+    console.log("INVOICES", invoices);
+  }, [invoices]);
 
   const columns = [
     {
@@ -56,8 +63,9 @@ function Invoices() {
   return (
     <Stack alignItems="center">
       <PageTitle title="Invoices" />
-      <TableButtons />
+      <TableButtons setOpenNewModal={setOpenNewModal} />
       <DataTable columns={columns} rows={invoices} />
+      <NewInvoiceModal open={openNewModal} setOpen={setOpenNewModal} />
     </Stack>
   );
 }
