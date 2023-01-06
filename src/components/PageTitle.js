@@ -4,6 +4,7 @@ import { Chip, Typography } from "@mui/material";
 const TitleBox = styled(Chip)(() => ({
   boxShadow: "1px 1px 5px dimgray",
   borderRadius: "5px",
+  width: "150px",
 }));
 
 function PageTitle({ title }) {

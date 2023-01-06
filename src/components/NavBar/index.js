@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 function NavBar() {
   const [selected, setSelected] = useState(null);
   const location = useLocation().pathname;
-  console.log("LOCATION", location);
 
   function handleChange(event, nextSelected) {
     setSelected(nextSelected);

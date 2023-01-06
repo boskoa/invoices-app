@@ -19,7 +19,9 @@ const initialState = invoicesAdapter.getInitialState({
 export const getAllInvoices = createAsyncThunk(
   "invoices/getAllInvoices",
   async () => {
-    const response = await axios.get(INVOICES_URL);
+    const response = await axios.get(
+      `${INVOICES_URL}?_expand=seller&_expand=customer`
+    );
     return response.data;
   }
 );
@@ -35,7 +37,16 @@ const invoicesSlice = createSlice({
       })
       .addCase(getAllInvoices.fulfilled, (state, action) => {
         state.loading = false;
-        invoicesAdapter.upsertMany(state, action.payload);
+        const invoices = action.payload.map((i) => ({
+          id: i.id,
+          date: i.date,
+          amount: i.amount,
+          customerId: i.customerId,
+          sellerId: i.sellerId,
+          customer: `${i.customer.name} ${i.customer.surname}`,
+          seller: i.seller.companyName,
+        }));
+        invoicesAdapter.upsertMany(state, invoices);
       })
       .addCase(getAllInvoices.rejected, (state, action) => {
         state.loading = false;
