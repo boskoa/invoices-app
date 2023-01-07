@@ -1,4 +1,5 @@
 import { Stack } from "@mui/material";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import DataTable from "../../components/DataTable";
 import PageTitle from "../../components/PageTitle";
@@ -13,6 +14,7 @@ function Customers() {
   const customers = useSelector(selectAllCustomers);
   const loading = useSelector(selectCustomersLoading);
   const error = useSelector(selectCustomersError);
+  const [selected, setSelected] = useState(null);
 
   const columns = [
     {
@@ -49,7 +51,12 @@ function Customers() {
     <Stack alignItems="center">
       <PageTitle title="Customers" />
       <TableButtons />
-      <DataTable columns={columns} rows={customers} />
+      <DataTable
+        columns={columns}
+        rows={customers}
+        selected={selected}
+        setSelected={setSelected}
+      />
     </Stack>
   );
 }

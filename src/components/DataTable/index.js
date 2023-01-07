@@ -7,8 +7,13 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { useEffect } from "react";
 
-function DataTable({ rows, columns }) {
+function DataTable({ rows, columns, selected, setSelected }) {
+  useEffect(() => {
+    console.log("SELECTED", selected);
+  }, [selected]);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -16,7 +21,7 @@ function DataTable({ rows, columns }) {
           <TableRow>
             {columns.map((c) => (
               <TableCell key={c.name} align="center">
-                {c.display}
+                <strong>{c.display}</strong>
               </TableCell>
             ))}
           </TableRow>
@@ -25,10 +30,20 @@ function DataTable({ rows, columns }) {
           {rows.map((row) => (
             <TableRow
               key={row.id || Math.floor(Math.random() * 1000000)}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              value={row.id}
+              onClick={() => {
+                if (selected === row.id) {
+                  setSelected(null);
+                } else {
+                  setSelected(row.id);
+                }
+              }}
+              sx={{
+                "&:last-child td, &:last-child th": { border: 0 },
+                backgroundColor: selected === row.id && "info.light",
+              }}
             >
               {columns.map((c) => {
-                console.log("TABELAFOOOO", row, c, row[c.name]);
                 return (
                   <TableCell key={c.name} align="center">
                     {c.format ? c.format(row[c.name]) : row[c.name]}

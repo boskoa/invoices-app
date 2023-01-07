@@ -31,7 +31,7 @@ function NavBar() {
         orientation="vertical"
         value={selected}
         exclusive
-        color="warning"
+        color="success"
         onChange={handleChange}
         aria-label="vertical button group"
       >

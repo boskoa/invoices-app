@@ -24,10 +24,7 @@ function ThemeSwitch() {
       alignItems="center"
       sx={{ m: { xs: "auto", sm: "5px" } }}
     >
-      <LightModeIcon
-        fontSize="small"
-        color={theme === "light" ? "warning" : "inherit"}
-      />
+      <LightModeIcon fontSize="small" color="inherit" />
       <Switch
         size="small"
         checked={theme === "dark"}

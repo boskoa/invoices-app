@@ -28,7 +28,17 @@ function App() {
                     <LazyInvoices />
                   </Suspense>
                 }
-              />
+              >
+                <Route
+                  path=":id"
+                  element={
+                    <Suspense fallback="Loading...">
+                      {/*} ubaciti spiner*/}
+                      <LazyInvoices />
+                    </Suspense>
+                  }
+                ></Route>
+              </Route>
               <Route
                 path="/sellers"
                 element={

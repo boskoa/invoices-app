@@ -1,34 +1,52 @@
 import {
   Button,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import ModalTemplate from "../../components/ModalTemplate";
 import { amountValidator, dateValidator } from "../../utils/validators";
 import { selectAllCustomers } from "../customers/customersSlice";
 import { selectAllSellers } from "../sellers/sellersSlice";
-import { postNewInvoice, selectInvoiceIds } from "./invoicesSlice";
+import { editInvoice, selectInvoiceById } from "./invoicesSlice";
 
-function NewInvoiceModal({ open, setOpen }) {
+function EditInvoiceModal({ open, setOpen, path }) {
   const [amount, setAmount] = useState("");
   const [amountError, setAmountError] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [dateError, setDateError] = useState("");
   const [seller, setSeller] = useState("");
-  const [sellerError, setSellerError] = useState("");
   const [customer, setCustomer] = useState("");
-  const [customerError, setCustomerError] = useState("");
   const sellers = useSelector(selectAllSellers);
   const customers = useSelector(selectAllCustomers);
-  const id = Math.max(useSelector(selectInvoiceIds));
+  const { id } = useParams();
+  const selectedInvoice = useSelector((state) => selectInvoiceById(state, id));
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  function dateToString(d) {
+    const day = d.getDate().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const year = d.getFullYear().toString();
+    return `${day}/${month}/${year}`;
+  }
+
+  useEffect(() => {
+    if (selectedInvoice) {
+      setAmount(selectedInvoice.amount);
+      setSeller(selectedInvoice.sellerId);
+      setCustomer(selectedInvoice.customerId);
+      setDateInput(dateToString(new Date(selectedInvoice.date)));
+      setAmountError("");
+      setDateError("");
+    }
+  }, [selectedInvoice]);
 
   function handleAmount(e) {
     let checkedValue = amountValidator(e.target.value);
@@ -40,21 +58,9 @@ function NewInvoiceModal({ open, setOpen }) {
     }
   }
 
-  function handleNewInvoice() {
+  function handleEdit() {
     const date = dateValidator(dateInput);
-
-    if (
-      typeof seller !== "number" ||
-      typeof customer !== "number" ||
-      typeof date !== "object" ||
-      typeof amount !== "number"
-    ) {
-      if (typeof seller !== "number") {
-        setSellerError("Seller must be set");
-      }
-      if (typeof customer !== "number") {
-        setCustomerError("Customer must be set");
-      }
+    if (typeof date !== "object" || typeof amount !== "number") {
       if (typeof date !== "object") {
         setDateError(date);
       }
@@ -64,26 +70,27 @@ function NewInvoiceModal({ open, setOpen }) {
     } else {
       try {
         dispatch(
-          postNewInvoice({
+          editInvoice({
             id,
-            date: date.toString(),
-            amount,
-            customerId: Number(customer),
-            sellerId: Number(seller),
-            customer: customers.find((c) => c.id === customer),
-            seller: sellers.find((s) => s.id === seller),
+            updates: {
+              amount,
+              date: date.toString(),
+              customerId: Number(customer),
+              sellerId: Number(seller),
+              customer: customers.find((c) => c.id === customer),
+              seller: sellers.find((s) => s.id === seller),
+            },
           })
         );
         setOpen(false);
         setAmount("");
         setSeller("");
         setCustomer("");
-        setDateInput("");
+        navigate(path);
       } catch (error) {
         console.log("ERROR", error);
       }
     }
-    return;
   }
 
   return (
@@ -125,7 +132,6 @@ function NewInvoiceModal({ open, setOpen }) {
           size="small"
           labelId="seller-label"
           id="seller"
-          error={Boolean(sellerError)}
           value={seller}
           label="Choose seller"
           onChange={(e) => setSeller(e.target.value)}
@@ -136,7 +142,6 @@ function NewInvoiceModal({ open, setOpen }) {
             </MenuItem>
           ))}
         </Select>
-        <FormHelperText>{sellerError}</FormHelperText>
       </FormControl>
       <FormControl>
         <InputLabel id="customer-label">
@@ -148,7 +153,6 @@ function NewInvoiceModal({ open, setOpen }) {
           size="small"
           labelId="customer-label"
           id="customer"
-          error={Boolean(customerError)}
           value={customer}
           label="Choose customer"
           onChange={(e) => setCustomer(e.target.value)}
@@ -159,15 +163,14 @@ function NewInvoiceModal({ open, setOpen }) {
             </MenuItem>
           ))}
         </Select>
-        <FormHelperText>{customerError}</FormHelperText>
       </FormControl>
       <Button
         size="small"
         variant="contained"
         color="success"
-        onClick={handleNewInvoice}
+        onClick={handleEdit}
       >
-        Create
+        Edit
       </Button>
       <Button
         size="small"
@@ -181,8 +184,7 @@ function NewInvoiceModal({ open, setOpen }) {
           setDateInput("");
           setAmountError("");
           setDateError("");
-          setCustomerError("");
-          setSellerError("");
+          navigate(path);
         }}
       >
         Close
@@ -191,4 +193,4 @@ function NewInvoiceModal({ open, setOpen }) {
   );
 }
 
-export default NewInvoiceModal;
+export default EditInvoiceModal;

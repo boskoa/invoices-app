@@ -9,3 +9,34 @@ export function amountValidator(n) {
 
   return n;
 }
+
+export function dateValidator(d) {
+  const today = new Date();
+  today.setHours(12);
+
+  if (d.length < 1) {
+    return today;
+  }
+
+  if (d.length !== 10) {
+    return "Invalid format";
+  }
+
+  let inputArray;
+  let date;
+  try {
+    inputArray = d.split("/");
+    date = new Date(`${inputArray[1]}/${inputArray[0]}/${inputArray[2]}`);
+    console.log("VALIDATEOR", date, today, inputArray);
+  } catch {
+    return "Invalid format";
+  }
+
+  if (date > today) {
+    return "Invoice date can not be in the future.";
+  }
+
+  date.setHours(12);
+
+  return date;
+}

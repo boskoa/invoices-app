@@ -8,7 +8,7 @@ import axios from "axios";
 const INVOICES_URL = "http://localhost:3001/api/invoices";
 
 const invoicesAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.date.localeCompare(a.date),
+  sortComparer: (a, b) => b.date > a.date,
 });
 
 const initialState = invoicesAdapter.getInitialState({
@@ -29,9 +29,48 @@ export const getAllInvoices = createAsyncThunk(
 export const postNewInvoice = createAsyncThunk(
   "invoices/postNewInvoice",
   async (data) => {
-    const response = await axios.post(INVOICES_URL, data);
-    console.log("AXIOS POST", response);
-    return response.data;
+    console.log("NEW INVOICE", data);
+    const newInvoice = {
+      id: data.id,
+      date: data.date,
+      amount: data.amount,
+      customerId: data.customerId,
+      sellerId: data.sellerId,
+    };
+    const response = await axios.post(INVOICES_URL, newInvoice);
+    return {
+      ...response.data,
+      customer: data.customer,
+      seller: data.seller,
+    };
+  }
+);
+
+export const editInvoice = createAsyncThunk(
+  "invoices/editInvoice",
+  async (data) => {
+    const { id, updates } = data;
+    const toUpdate = {
+      date: updates.date,
+      amount: updates.amount,
+      customerId: updates.customerId,
+      sellerId: updates.sellerId,
+    };
+    console.log("AXIOS PATCH", updates);
+    const response = await axios.patch(`${INVOICES_URL}/${id}`, toUpdate);
+    return {
+      ...response.data,
+      customer: updates.customer,
+      seller: updates.seller,
+    };
+  }
+);
+
+export const deleteInvoice = createAsyncThunk(
+  "invoices/deleteInvoice",
+  async (id) => {
+    await axios.delete(`${INVOICES_URL}/${id}`);
+    return id;
   }
 );
 
@@ -66,6 +105,7 @@ const invoicesSlice = createSlice({
       })
       .addCase(postNewInvoice.fulfilled, (state, action) => {
         state.loading = false;
+        console.log("AXIOS POST", action.payload);
         const invoice = {
           id: action.payload.id,
           date: action.payload.date,
@@ -78,6 +118,37 @@ const invoicesSlice = createSlice({
         invoicesAdapter.addOne(state, invoice);
       })
       .addCase(postNewInvoice.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(editInvoice.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(editInvoice.fulfilled, (state, action) => {
+        state.loading = false;
+        const updates = {
+          id: action.payload.id,
+          date: action.payload.date,
+          amount: action.payload.amount,
+          customerId: action.payload.customerId,
+          sellerId: action.payload.sellerId,
+          customer: `${action.payload.customer.name} ${action.payload.customer.surname}`,
+          seller: action.payload.seller.companyName,
+        };
+        invoicesAdapter.upsertOne(state, updates);
+      })
+      .addCase(editInvoice.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteInvoice.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteInvoice.fulfilled, (state, action) => {
+        state.loading = false;
+        invoicesAdapter.removeOne(state, action.payload);
+      })
+      .addCase(deleteInvoice.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
