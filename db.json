@@ -67,13 +67,20 @@
       "surname": "Marković",
       "address": "Mladena Stojanovića 199, Banja Luka, BiH",
       "age": 63
+    },
+    {
+      "id": 7,
+      "name": "Una",
+      "surname": "Unić",
+      "age": 20,
+      "address": "Gospodska Ulica 15, Banja Luka BiH"
     }
   ],
   "invoices": [
     {
       "id": 2,
       "date": "Thu Jan 05 2023 12:00:00 GMT+0100 (Central European Standard Time)",
-      "amount": 963,
+      "amount": 96300,
       "customerId": 6,
       "sellerId": 0
     },
@@ -106,13 +113,6 @@
       "sellerId": 2
     },
     {
-      "id": 33,
-      "date": "Sun Jan 08 2023 12:47:28 GMT+0100 (Central European Standard Time)",
-      "amount": 9985,
-      "customerId": 3,
-      "sellerId": 1
-    },
-    {
       "id": 34,
       "date": "Sun Jan 08 2023 12:48:23 GMT+0100 (Central European Standard Time)",
       "amount": 9856,
@@ -120,11 +120,18 @@
       "sellerId": 3
     },
     {
-      "id": 35,
-      "date": "Sun Jan 08 2023 12:48:39 GMT+0100 (Central European Standard Time)",
-      "amount": 9654,
-      "customerId": 3,
-      "sellerId": 0
+      "id": 36,
+      "date": "Sun Jan 08 2023 12:56:38 GMT+0100 (Central European Standard Time)",
+      "amount": 5000,
+      "customerId": 5,
+      "sellerId": 2
+    },
+    {
+      "id": 37,
+      "date": "Sun Jan 08 2023 12:31:20 GMT+0100 (Central European Standard Time)",
+      "amount": 78945,
+      "customerId": 2,
+      "sellerId": 2
     }
   ]
 }

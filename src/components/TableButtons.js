@@ -20,7 +20,7 @@ function TableButtons({
       color="success"
       variant="outlined"
       size="small"
-      sx={{ m: 2 }}
+      sx={{ m: 2, position: "sticky", top: 50 }}
     >
       <Button onClick={() => setOpenNewModal(true)}>
         <AddCircleOutlineIcon />
