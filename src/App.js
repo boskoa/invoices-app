@@ -39,7 +39,7 @@ function App() {
                       <LazyInvoices />
                     </Suspense>
                   }
-                ></Route>
+                />
               </Route>
               <Route
                 path="/sellers"
@@ -49,7 +49,17 @@ function App() {
                     <LazySellers />
                   </Suspense>
                 }
-              />
+              >
+                <Route
+                  path=":id"
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      {/*} ubaciti spiner*/}
+                      <LazySellers />
+                    </Suspense>
+                  }
+                />
+              </Route>
               <Route
                 path="/customers"
                 element={
@@ -58,7 +68,17 @@ function App() {
                     <LazyCustomers />
                   </Suspense>
                 }
-              />
+              >
+                <Route
+                  path=":id"
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      {/*} ubaciti spiner*/}
+                      <LazyCustomers />
+                    </Suspense>
+                  }
+                />
+              </Route>
               <Route path="/" element={<HomePage />} />
             </Routes>
             <Snack />

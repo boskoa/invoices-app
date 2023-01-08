@@ -68,9 +68,12 @@ export const editInvoice = createAsyncThunk(
 
 export const deleteInvoice = createAsyncThunk(
   "invoices/deleteInvoice",
-  async (id) => {
-    await axios.delete(`${INVOICES_URL}/${id}`);
-    return id;
+  async (ids) => {
+    for (let id of ids) {
+      await axios.delete(`${INVOICES_URL}/${id}`);
+    }
+
+    return ids;
   }
 );
 
@@ -85,6 +88,7 @@ const invoicesSlice = createSlice({
       })
       .addCase(getAllInvoices.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         const invoices = action.payload.map((i) => ({
           id: i.id,
           date: i.date,
@@ -102,6 +106,7 @@ const invoicesSlice = createSlice({
       })
       .addCase(postNewInvoice.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         const invoice = {
           id: action.payload.id,
           date: action.payload.date,
@@ -119,6 +124,7 @@ const invoicesSlice = createSlice({
       })
       .addCase(editInvoice.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         const updates = {
           id: action.payload.id,
           date: action.payload.date,
@@ -136,7 +142,8 @@ const invoicesSlice = createSlice({
       })
       .addCase(deleteInvoice.fulfilled, (state, action) => {
         state.loading = false;
-        invoicesAdapter.removeOne(state, action.payload);
+        state.error = null;
+        invoicesAdapter.removeMany(state, action.payload);
       })
       .addCase(deleteInvoice.rejected, (state, action) => {
         state.loading = false;

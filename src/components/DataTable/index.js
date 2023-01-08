@@ -27,15 +27,16 @@ function DataTable({ rows, columns, selected, setSelected }) {
               key={row.id || Math.floor(Math.random() * 1000000)}
               value={row.id}
               onClick={() => {
-                if (selected === row.id) {
-                  setSelected(null);
+                if (selected.includes(row.id)) {
+                  setSelected((prev) => prev.filter((i) => i !== row.id));
                 } else {
-                  setSelected(row.id);
+                  setSelected((prev) => [...prev, row.id]);
                 }
               }}
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
-                backgroundColor: selected === row.id && "info.light",
+                backgroundColor: selected.includes(row.id) && "warning.main",
+                transition: "background-color 0.7s",
               }}
             >
               {columns.map((c) => {

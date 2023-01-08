@@ -41,8 +41,10 @@ export function dateValidator(d) {
 }
 
 export function allLetters(str) {
+  if (!str.length) return false;
+
   const checkedStr = str.match(/\p{L}+/giu)?.toString();
-  console.log(str, checkedStr);
+
   return str.length === checkedStr?.length;
 }
 

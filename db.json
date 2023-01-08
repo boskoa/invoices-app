@@ -15,7 +15,7 @@
     {
       "id": 2,
       "companyName": "Facebook",
-      "hqAddress": "Menlo Park, California, U.S",
+      "hqAddress": "Menlo Park, California, U.S.",
       "isActive": true
     },
     {
@@ -26,13 +26,6 @@
     }
   ],
   "customers": [
-    {
-      "id": 0,
-      "name": "Marko",
-      "surname": "Marković",
-      "address": "Mladena Stojanovića 199, Banja Luka, BiH",
-      "age": 30
-    },
     {
       "id": 1,
       "name": "Petar",
@@ -52,7 +45,7 @@
       "name": "Jelena",
       "surname": "Jelenović",
       "address": "Ive Andrića 656, Banja Luka, BiH",
-      "age": 45
+      "age": 39
     },
     {
       "id": 4,
@@ -67,14 +60,21 @@
       "surname": "Milanović",
       "age": 33,
       "address": "Trg Slobode 600, Novi Sad, Srbija"
+    },
+    {
+      "id": 6,
+      "name": "Marko",
+      "surname": "Marković",
+      "address": "Mladena Stojanovića 199, Banja Luka, BiH",
+      "age": 63
     }
   ],
   "invoices": [
     {
-      "id": 0,
+      "id": 2,
       "date": "Thu Jan 05 2023 12:00:00 GMT+0100 (Central European Standard Time)",
-      "amount": 9630,
-      "customerId": 0,
+      "amount": 963,
+      "customerId": 6,
       "sellerId": 0
     },
     {
@@ -94,30 +94,37 @@
     {
       "date": "Sat Jan 07 2023 12:00:00 GMT+0100 (Central European Standard Time)",
       "amount": 78977,
-      "customerId": 0,
+      "customerId": 6,
       "sellerId": 2,
       "id": 11
     },
     {
-      "id": 16,
-      "date": "Sat Apr 02 2022 12:00:00 GMT+0200 (Central European Summer Time)",
-      "amount": 123,
-      "customerId": 0,
-      "sellerId": 0
-    },
-    {
-      "id": 20,
-      "date": "Sat Jan 01 2022 12:00:00 GMT+0100 (Central European Standard Time)",
-      "amount": 452,
-      "customerId": 0,
-      "sellerId": 0
-    },
-    {
-      "id": 24,
-      "date": "Sun Jan 08 2023 12:01:58 GMT+0100 (Central European Standard Time)",
-      "amount": 789456,
-      "customerId": 3,
+      "id": 32,
+      "date": "Sun Jan 08 2023 12:47:19 GMT+0100 (Central European Standard Time)",
+      "amount": 654,
+      "customerId": 6,
       "sellerId": 2
+    },
+    {
+      "id": 33,
+      "date": "Sun Jan 08 2023 12:47:28 GMT+0100 (Central European Standard Time)",
+      "amount": 9985,
+      "customerId": 3,
+      "sellerId": 1
+    },
+    {
+      "id": 34,
+      "date": "Sun Jan 08 2023 12:48:23 GMT+0100 (Central European Standard Time)",
+      "amount": 9856,
+      "customerId": 1,
+      "sellerId": 3
+    },
+    {
+      "id": 35,
+      "date": "Sun Jan 08 2023 12:48:39 GMT+0100 (Central European Standard Time)",
+      "amount": 9654,
+      "customerId": 3,
+      "sellerId": 0
     }
   ]
 }

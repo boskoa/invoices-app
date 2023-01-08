@@ -7,11 +7,12 @@ import { useNavigate } from "react-router-dom";
 function TableButtons({
   setOpenNewModal,
   setOpenEditModal,
+  setOpenDeleteModal,
   selected,
   path,
-  handleRemove,
 }) {
   const navigate = useNavigate();
+  console.log("EDIT SELECTED", selected);
 
   return (
     <ButtonGroup
@@ -25,7 +26,7 @@ function TableButtons({
         <AddCircleOutlineIcon />
       </Button>
       <Button
-        disabled={selected === null}
+        disabled={selected.length !== 1}
         onClick={() => {
           navigate(`${path}/${selected}`);
           setOpenEditModal(true);
@@ -33,7 +34,10 @@ function TableButtons({
       >
         <EditIcon />
       </Button>
-      <Button disabled={selected === null} onClick={handleRemove}>
+      <Button
+        disabled={selected.length === 0}
+        onClick={() => setOpenDeleteModal(true)}
+      >
         <HighlightOffIcon />
       </Button>
     </ButtonGroup>

@@ -24,6 +24,34 @@ export const getAllSellers = createAsyncThunk(
   }
 );
 
+export const postNewSeller = createAsyncThunk(
+  "sellers/postNewSeller",
+  async (data) => {
+    const response = await axios.post(SELLERS_URL, data);
+    return response.data;
+  }
+);
+
+export const deleteSeller = createAsyncThunk(
+  "sellers/deleteSeller",
+  async (ids) => {
+    for (let id of ids) {
+      await axios.delete(`${SELLERS_URL}/${id}`);
+    }
+    return ids;
+  }
+);
+
+export const editSeller = createAsyncThunk(
+  "sellers/editSeller",
+  async (data) => {
+    const { id, updates } = data;
+    const response = await axios.patch(`${SELLERS_URL}/${id}`, updates);
+
+    return { ...response.data, id };
+  }
+);
+
 const sellersSlice = createSlice({
   name: "sellers",
   initialState,
@@ -38,6 +66,32 @@ const sellersSlice = createSlice({
         sellersAdapter.upsertMany(state, action.payload);
       })
       .addCase(getAllSellers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(postNewSeller.fulfilled, (state, action) => {
+        state.error = null;
+        sellersAdapter.addOne(state, action.payload);
+      })
+      .addCase(postNewSeller.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteSeller.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        sellersAdapter.removeMany(state, action.payload);
+      })
+      .addCase(deleteSeller.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(editSeller.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        sellersAdapter.upsertOne(state, action.payload);
+      })
+      .addCase(editSeller.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

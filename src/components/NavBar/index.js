@@ -10,7 +10,10 @@ function NavBar() {
   const location = useLocation().pathname;
 
   function handleChange(event, nextSelected) {
-    setSelected(nextSelected);
+    if (nextSelected !== null) {
+      setSelected(nextSelected);
+    }
+    return;
   }
 
   useEffect(() => {

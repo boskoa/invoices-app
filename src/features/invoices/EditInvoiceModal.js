@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ModalTemplate from "../../components/ModalTemplate";
+import useSnack from "../../hooks/useSnacks";
 import { amountValidator, dateValidator } from "../../utils/validators";
 import { selectAllCustomers } from "../customers/customersSlice";
 import { selectAllSellers } from "../sellers/sellersSlice";
@@ -27,6 +28,7 @@ function EditInvoiceModal({ open, setOpen, path }) {
   const customers = useSelector(selectAllCustomers);
   const { id } = useParams();
   const selectedInvoice = useSelector((state) => selectInvoiceById(state, id));
+  const activateSnack = useSnack();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -71,7 +73,7 @@ function EditInvoiceModal({ open, setOpen, path }) {
       try {
         dispatch(
           editInvoice({
-            id,
+            id: Number(id),
             updates: {
               amount,
               date: date.toString(),
@@ -86,9 +88,10 @@ function EditInvoiceModal({ open, setOpen, path }) {
         setAmount("");
         setSeller("");
         setCustomer("");
+        activateSnack("success", "Invoice edited");
         navigate(path);
       } catch (error) {
-        console.log("ERROR", error);
+        activateSnack("error", error.message);
       }
     }
   }

@@ -25,7 +25,7 @@ export const getAllCustomers = createAsyncThunk(
 );
 
 export const postNewCustomer = createAsyncThunk(
-  "invoices/postNewCustomer",
+  "customers/postNewCustomer",
   async (data) => {
     const response = await axios.post(CUSTOMERS_URL, data);
     return response.data;
@@ -33,10 +33,22 @@ export const postNewCustomer = createAsyncThunk(
 );
 
 export const deleteCustomer = createAsyncThunk(
-  "invoices/deleteCustomer",
-  async (id) => {
-    await axios.delete(`${CUSTOMERS_URL}/${id}`);
-    return id;
+  "customers/deleteCustomer",
+  async (ids) => {
+    for (let id of ids) {
+      await axios.delete(`${CUSTOMERS_URL}/${id}`);
+    }
+    return ids;
+  }
+);
+
+export const editCustomer = createAsyncThunk(
+  "customers/editCustomer",
+  async (data) => {
+    const { id, updates } = data;
+    const response = await axios.patch(`${CUSTOMERS_URL}/${id}`, updates);
+
+    return { ...response.data, id };
   }
 );
 
@@ -51,6 +63,7 @@ const customersSlice = createSlice({
       })
       .addCase(getAllCustomers.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
         customersAdapter.upsertMany(state, action.payload);
       })
       .addCase(getAllCustomers.rejected, (state, action) => {
@@ -58,11 +71,30 @@ const customersSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(postNewCustomer.fulfilled, (state, action) => {
+        state.error = null;
         customersAdapter.addOne(state, action.payload);
+      })
+      .addCase(postNewCustomer.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       })
       .addCase(deleteCustomer.fulfilled, (state, action) => {
         state.loading = false;
-        customersAdapter.removeOne(state, action.payload);
+        state.error = null;
+        customersAdapter.removeMany(state, action.payload);
+      })
+      .addCase(deleteCustomer.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(editCustomer.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        customersAdapter.upsertOne(state, action.payload);
+      })
+      .addCase(editCustomer.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });

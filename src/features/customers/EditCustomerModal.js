@@ -1,15 +1,13 @@
 import { Button, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import ModalTemplate from "../../components/ModalTemplate";
 import useSnack from "../../hooks/useSnacks";
 import { allLetters, isValidAge } from "../../utils/validators";
-import {
-  postNewCustomer,
-  selectCustomerIds,
-} from "../customers/customersSlice";
+import { editCustomer, selectCustomerById } from "../customers/customersSlice";
 
-function NewCustomerModal({ open, setOpen }) {
+function EditCustomerModal({ open, setOpen, path }) {
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [surname, setSurname] = useState("");
@@ -18,11 +16,28 @@ function NewCustomerModal({ open, setOpen }) {
   const [ageError, setAgeError] = useState("");
   const [address, setAddress] = useState("");
   const [addressError, setAddressError] = useState("");
-  const id = Math.max(useSelector(selectCustomerIds)) + 1;
+  const { id } = useParams();
+  const selectedCustomer = useSelector((state) =>
+    selectCustomerById(state, id)
+  );
   const activateSnack = useSnack();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function handleNewCustomer() {
+  useEffect(() => {
+    if (selectedCustomer) {
+      setName(selectedCustomer.name);
+      setSurname(selectedCustomer.surname);
+      setAge(selectedCustomer.age);
+      setAddress(selectedCustomer.address);
+      setNameError("");
+      setSurnameError("");
+      setAgeError("");
+      setAddressError("");
+    }
+  }, [selectedCustomer]);
+
+  function handleEdit() {
     if (
       !allLetters(name) ||
       !allLetters(surname) ||
@@ -44,20 +59,23 @@ function NewCustomerModal({ open, setOpen }) {
     } else {
       try {
         dispatch(
-          postNewCustomer({
-            id,
-            name,
-            surname,
-            age: Number(age),
-            address,
+          editCustomer({
+            id: Number(id),
+            updates: {
+              name,
+              surname,
+              age: Number(age),
+              address,
+            },
           })
         );
-        activateSnack("success", "Customer created");
+        activateSnack("success", "Customer edited");
         setOpen(false);
         setName("");
         setSurname("");
         setAge("");
         setAddress("");
+        navigate(path);
       } catch (error) {
         activateSnack("error", error.message);
       }
@@ -123,9 +141,9 @@ function NewCustomerModal({ open, setOpen }) {
         size="small"
         variant="contained"
         color="success"
-        onClick={handleNewCustomer}
+        onClick={handleEdit}
       >
-        Create
+        Edit
       </Button>
       <Button
         size="small"
@@ -141,6 +159,7 @@ function NewCustomerModal({ open, setOpen }) {
           setSurnameError("");
           setAgeError("");
           setAddressError("");
+          navigate(path);
         }}
       >
         Close
@@ -149,4 +168,4 @@ function NewCustomerModal({ open, setOpen }) {
   );
 }
 
-export default NewCustomerModal;
+export default EditCustomerModal;

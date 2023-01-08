@@ -15,6 +15,8 @@ import {
   selectCustomersError,
   selectCustomersLoading,
 } from "./customersSlice";
+import DeleteCustomersModal from "./DeleteCustomersModal";
+import EditCustomerModal from "./EditCustomerModal";
 import NewCustomerModal from "./NewCustomerModal";
 
 function Customers() {
@@ -23,9 +25,10 @@ function Customers() {
   const error = useSelector(selectCustomersError);
   const invoices = useSelector(selectAllInvoices);
   const { id } = useParams();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState([]);
   const [openNewModal, setOpenNewModal] = useState(false);
-  //const [openEditModal, setOpenEditModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [pages, setPages] = useState(10);
   const [offset, setOffset] = useState(0);
   const [tableItems, setTableItems] = useState([]);
@@ -61,24 +64,36 @@ function Customers() {
 
   useEffect(() => {
     if (id) {
-      setSelected(Number(id));
+      setSelected([Number(id)]);
+      setOpenEditModal(true);
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     setTableItems(customers.slice(offset * pages, (offset + 1) * pages));
   }, [offset, pages, customers]);
 
   function handleRemove() {
-    if (usedCustomers.includes(selected)) {
+    const filteredSelected = selected.filter((s) => !usedCustomers.includes(s));
+
+    if (!filteredSelected.length) {
       return activateSnack(
         "error",
-        "Action aborted, there are invoices related to this customer"
+        "Action aborted, there are invoices related to slected customer(s)"
       );
     }
+
     try {
-      dispatch(deleteCustomer(selected));
-      activateSnack("success", "Customer deleted");
+      dispatch(deleteCustomer(filteredSelected));
+      if (filteredSelected.length !== selected.length) {
+        activateSnack(
+          "warning",
+          "Action partially aborted, there are invoices related to slected customer(s)"
+        );
+      } else {
+        activateSnack("success", "Customer deleted");
+      }
+      setSelected([]);
     } catch (error) {
       activateSnack("error", error.message);
     }
@@ -97,9 +112,10 @@ function Customers() {
       <PageTitle title="Customers" />
       <TableButtons
         setOpenNewModal={setOpenNewModal}
+        setOpenEditModal={setOpenEditModal}
+        setOpenDeleteModal={setOpenDeleteModal}
         selected={selected}
-        path="/invoices"
-        handleRemove={handleRemove}
+        path="/customers"
       />
       <DataTable
         columns={columns}
@@ -115,6 +131,16 @@ function Customers() {
         length={customers.length}
       />
       <NewCustomerModal open={openNewModal} setOpen={setOpenNewModal} />
+      <EditCustomerModal
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+        path="/customers"
+      />
+      <DeleteCustomersModal
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        handleRemove={handleRemove}
+      />
     </Stack>
   );
 }

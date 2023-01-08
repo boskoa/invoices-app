@@ -8,6 +8,7 @@ import PageTitle from "../../components/PageTitle";
 import PaginationBox from "../../components/PaginationBox";
 import TableButtons from "../../components/TableButtons";
 import useSnack from "../../hooks/useSnacks";
+import DeleteInvoicesModal from "./DeleteInvoicesModal";
 import EditInvoiceModal from "./EditInvoiceModal";
 import {
   deleteInvoice,
@@ -31,7 +32,8 @@ function Invoices() {
   const [tableItems, setTableItems] = useState([]);
   const [openNewModal, setOpenNewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selected, setSelected] = useState([]);
   const { id } = useParams();
   const dispatch = useDispatch();
   const activateSnack = useSnack();
@@ -64,9 +66,10 @@ function Invoices() {
 
   useEffect(() => {
     if (id) {
-      setSelected(Number(id));
+      setSelected([Number(id)]);
+      setOpenEditModal(true);
     }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     setTableItems(invoices.slice(offset * pages, (offset + 1) * pages));
@@ -76,6 +79,7 @@ function Invoices() {
     try {
       dispatch(deleteInvoice(selected));
       activateSnack("success", "Invoice deleted");
+      setSelected([]);
     } catch (error) {
       activateSnack("error", error.message);
     }
@@ -95,9 +99,9 @@ function Invoices() {
       <TableButtons
         setOpenNewModal={setOpenNewModal}
         setOpenEditModal={setOpenEditModal}
+        setOpenDeleteModal={setOpenDeleteModal}
         selected={selected}
         path="/invoices"
-        handleRemove={handleRemove}
       />
       <DataTable
         columns={columns}
@@ -117,6 +121,11 @@ function Invoices() {
         open={openEditModal}
         setOpen={setOpenEditModal}
         path="/invoices"
+      />
+      <DeleteInvoicesModal
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        handleRemove={handleRemove}
       />
     </Stack>
   );
