@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { removeSnack, sendSnack } from "../features/snacks/snacksSlice";
 
-const useSnack = () => {
+function useSnack() {
   const dispatch = useDispatch();
 
   const activateSnack = (severity, message) => {
@@ -16,6 +16,6 @@ const useSnack = () => {
   };
 
   return activateSnack;
-};
+}
 
 export default useSnack;

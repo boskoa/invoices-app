@@ -1,13 +1,15 @@
 import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DataTable from "../../components/DataTable";
 import Loading from "../../components/Loading";
 import PageTitle from "../../components/PageTitle";
 import PaginationBox from "../../components/PaginationBox";
 import TableButtons from "../../components/TableButtons";
 import useSnack from "../../hooks/useSnacks";
+import { selectAllCustomers } from "../customers/customersSlice";
+import { selectAllSellers } from "../sellers/sellersSlice";
 import DeleteInvoicesModal from "./DeleteInvoicesModal";
 import EditInvoiceModal from "./EditInvoiceModal";
 import {
@@ -27,6 +29,8 @@ function Invoices() {
   const invoices = useSelector(selectAllInvoices);
   const loading = useSelector(selectInvoicesLoading);
   const error = useSelector(selectInvoicesError);
+  const customers = useSelector(selectAllCustomers);
+  const sellers = useSelector(selectAllSellers);
   const [pages, setPages] = useState(10);
   const [offset, setOffset] = useState(0);
   const [tableItems, setTableItems] = useState([]);
@@ -42,10 +46,34 @@ function Invoices() {
     {
       name: "seller",
       display: "Seller",
+      format: (value) => {
+        const sellerId = sellers.find((s) => value === s.companyName).id;
+        return (
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to={`/sellers/${sellerId}`}
+          >
+            {value}
+          </Link>
+        );
+      },
     },
     {
       name: "customer",
       display: "Customer",
+      format: (value) => {
+        const customerId = customers.find(
+          (s) => value === `${s.name} ${s.surname}`
+        ).id;
+        return (
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to={`/customers/${customerId}`}
+          >
+            {value}
+          </Link>
+        );
+      },
     },
     {
       name: "date",
