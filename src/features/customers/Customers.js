@@ -1,20 +1,40 @@
 import { Stack } from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import DataTable from "../../components/DataTable";
+import Loading from "../../components/Loading";
 import PageTitle from "../../components/PageTitle";
+import PaginationBox from "../../components/PaginationBox";
 import TableButtons from "../../components/TableButtons";
+import useSnack from "../../hooks/useSnacks";
+import { selectAllInvoices } from "../invoices/invoicesSlice";
 import {
+  deleteCustomer,
   selectAllCustomers,
   selectCustomersError,
   selectCustomersLoading,
 } from "./customersSlice";
+import NewCustomerModal from "./NewCustomerModal";
 
 function Customers() {
   const customers = useSelector(selectAllCustomers);
   const loading = useSelector(selectCustomersLoading);
   const error = useSelector(selectCustomersError);
+  const invoices = useSelector(selectAllInvoices);
+  const { id } = useParams();
   const [selected, setSelected] = useState(null);
+  const [openNewModal, setOpenNewModal] = useState(false);
+  //const [openEditModal, setOpenEditModal] = useState(false);
+  const [pages, setPages] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [tableItems, setTableItems] = useState([]);
+  const dispatch = useDispatch();
+  const activateSnack = useSnack();
+  const usedCustomers = useMemo(
+    () => [...new Set(invoices.map((i) => i.customerId))],
+    [invoices]
+  );
 
   const columns = [
     {
@@ -39,24 +59,62 @@ function Customers() {
     },
   ];
 
+  useEffect(() => {
+    if (id) {
+      setSelected(Number(id));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    setTableItems(customers.slice(offset * pages, (offset + 1) * pages));
+  }, [offset, pages, customers]);
+
+  function handleRemove() {
+    if (usedCustomers.includes(selected)) {
+      return activateSnack(
+        "error",
+        "Action aborted, there are invoices related to this customer"
+      );
+    }
+    try {
+      dispatch(deleteCustomer(selected));
+      activateSnack("success", "Customer deleted");
+    } catch (error) {
+      activateSnack("error", error.message);
+    }
+  }
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
-    return console.log("CUSTOMERS ERROR", error);
+    return activateSnack("error", error);
   }
 
   return (
     <Stack alignItems="center">
       <PageTitle title="Customers" />
-      <TableButtons />
+      <TableButtons
+        setOpenNewModal={setOpenNewModal}
+        selected={selected}
+        path="/invoices"
+        handleRemove={handleRemove}
+      />
       <DataTable
         columns={columns}
-        rows={customers}
+        rows={tableItems}
         selected={selected}
         setSelected={setSelected}
       />
+      <PaginationBox
+        pages={pages}
+        setPages={setPages}
+        offset={offset}
+        setOffset={setOffset}
+        length={customers.length}
+      />
+      <NewCustomerModal open={openNewModal} setOpen={setOpenNewModal} />
     </Stack>
   );
 }

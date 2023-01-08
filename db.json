@@ -53,13 +53,27 @@
       "surname": "Jelenović",
       "address": "Ive Andrića 656, Banja Luka, BiH",
       "age": 45
+    },
+    {
+      "id": 4,
+      "name": "Stojan",
+      "surname": "Stojanović",
+      "age": 21,
+      "address": "Bulevar oslobođenja 1001, Novi Sad, Srbija"
+    },
+    {
+      "id": 5,
+      "name": "Milan",
+      "surname": "Milanović",
+      "age": 33,
+      "address": "Trg Slobode 600, Novi Sad, Srbija"
     }
   ],
   "invoices": [
     {
       "id": 0,
-      "date": "Fri Jan 05 2023 18:01:01 GMT+0100 (Central European Standard Time)",
-      "amount": 963,
+      "date": "Thu Jan 05 2023 12:00:00 GMT+0100 (Central European Standard Time)",
+      "amount": 9630,
       "customerId": 0,
       "sellerId": 0
     },
@@ -69,13 +83,6 @@
       "amount": 5000,
       "customerId": 1,
       "sellerId": 1
-    },
-    {
-      "id": 2,
-      "date": "Fri Jan 06 2023 23:06:58 GMT+0100 (Central European Standard Time)",
-      "amount": 10000,
-      "customerId": 2,
-      "sellerId": 2
     },
     {
       "date": "Sat Jan 07 2023 12:53:47 GMT+0100 (Central European Standard Time)",
@@ -92,46 +99,25 @@
       "id": 11
     },
     {
-      "date": "Sun Jan 01 2023 00:00:00 GMT+0100 (Central European Standard Time)",
-      "amount": 564654,
-      "customerId": 2,
-      "sellerId": 1,
-      "id": 12
-    },
-    {
-      "date": "Sat Jan 07 2023 14:46:03 GMT+0100 (Central European Standard Time)",
-      "amount": 784564,
-      "customerId": 3,
-      "sellerId": 3,
-      "id": 13
-    },
-    {
-      "date": "Sat Jan 07 2023 12:51:10 GMT+0100 (Central European Standard Time)",
-      "amount": 789,
-      "customerId": 1,
-      "sellerId": 3,
-      "id": 14
-    },
-    {
       "id": 16,
-      "date": "Wed Feb 02 2022 12:00:00 GMT+0100 (Central European Standard Time)",
+      "date": "Sat Apr 02 2022 12:00:00 GMT+0200 (Central European Summer Time)",
       "amount": 123,
       "customerId": 0,
       "sellerId": 0
     },
     {
-      "id": 17,
-      "date": "Sat Jan 07 2023 12:57:18 GMT+0100 (Central European Standard Time)",
-      "amount": 123,
+      "id": 20,
+      "date": "Sat Jan 01 2022 12:00:00 GMT+0100 (Central European Standard Time)",
+      "amount": 452,
       "customerId": 0,
-      "sellerId": 3
+      "sellerId": 0
     },
     {
-      "id": 18,
-      "date": "Mon Jan 02 2023 12:00:00 GMT+0100 (Central European Standard Time)",
-      "amount": 321,
+      "id": 24,
+      "date": "Sun Jan 08 2023 12:01:58 GMT+0100 (Central European Standard Time)",
+      "amount": 789456,
       "customerId": 3,
-      "sellerId": 0
+      "sellerId": 2
     }
   ]
 }

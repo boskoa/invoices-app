@@ -24,6 +24,22 @@ export const getAllCustomers = createAsyncThunk(
   }
 );
 
+export const postNewCustomer = createAsyncThunk(
+  "invoices/postNewCustomer",
+  async (data) => {
+    const response = await axios.post(CUSTOMERS_URL, data);
+    return response.data;
+  }
+);
+
+export const deleteCustomer = createAsyncThunk(
+  "invoices/deleteCustomer",
+  async (id) => {
+    await axios.delete(`${CUSTOMERS_URL}/${id}`);
+    return id;
+  }
+);
+
 const customersSlice = createSlice({
   name: "customers",
   initialState,
@@ -40,6 +56,13 @@ const customersSlice = createSlice({
       .addCase(getAllCustomers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(postNewCustomer.fulfilled, (state, action) => {
+        customersAdapter.addOne(state, action.payload);
+      })
+      .addCase(deleteCustomer.fulfilled, (state, action) => {
+        state.loading = false;
+        customersAdapter.removeOne(state, action.payload);
       });
   },
 });

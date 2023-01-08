@@ -27,7 +27,6 @@ export function dateValidator(d) {
   try {
     inputArray = d.split("/");
     date = new Date(`${inputArray[1]}/${inputArray[0]}/${inputArray[2]}`);
-    console.log("VALIDATEOR", date, today, inputArray);
   } catch {
     return "Invalid format";
   }
@@ -39,4 +38,18 @@ export function dateValidator(d) {
   date.setHours(12);
 
   return date;
+}
+
+export function allLetters(str) {
+  const checkedStr = str.match(/\p{L}+/giu)?.toString();
+  console.log(str, checkedStr);
+  return str.length === checkedStr?.length;
+}
+
+export function isValidAge(age) {
+  if (age < 18 || age > 150 || isNaN(age)) {
+    return false;
+  }
+
+  return true;
 }

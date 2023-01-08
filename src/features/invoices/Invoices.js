@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import DataTable from "../../components/DataTable";
+import Loading from "../../components/Loading";
 import PageTitle from "../../components/PageTitle";
+import PaginationBox from "../../components/PaginationBox";
 import TableButtons from "../../components/TableButtons";
+import useSnack from "../../hooks/useSnacks";
 import EditInvoiceModal from "./EditInvoiceModal";
 import {
   deleteInvoice,
@@ -23,13 +26,15 @@ function Invoices() {
   const invoices = useSelector(selectAllInvoices);
   const loading = useSelector(selectInvoicesLoading);
   const error = useSelector(selectInvoicesError);
+  const [pages, setPages] = useState(10);
+  const [offset, setOffset] = useState(0);
+  const [tableItems, setTableItems] = useState([]);
   const [openNewModal, setOpenNewModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [selected, setSelected] = useState(null);
   const { id } = useParams();
   const dispatch = useDispatch();
-
-  console.log("USE PARAMS", id);
+  const activateSnack = useSnack();
 
   const columns = [
     {
@@ -63,20 +68,25 @@ function Invoices() {
     }
   }, [id]);
 
+  useEffect(() => {
+    setTableItems(invoices.slice(offset * pages, (offset + 1) * pages));
+  }, [offset, pages, invoices]);
+
   function handleRemove() {
     try {
       dispatch(deleteInvoice(selected));
+      activateSnack("success", "Invoice deleted");
     } catch (error) {
-      console.log(error.message);
+      activateSnack("error", error.message);
     }
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
-    return console.log("INVOICES ERROR", error);
+    return activateSnack("error", error);
   }
 
   return (
@@ -91,9 +101,16 @@ function Invoices() {
       />
       <DataTable
         columns={columns}
-        rows={invoices}
+        rows={tableItems}
         selected={selected}
         setSelected={setSelected}
+      />
+      <PaginationBox
+        pages={pages}
+        setPages={setPages}
+        offset={offset}
+        setOffset={setOffset}
+        length={invoices.length}
       />
       <NewInvoiceModal open={openNewModal} setOpen={setOpenNewModal} />
       <EditInvoiceModal

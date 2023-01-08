@@ -17,6 +17,8 @@ const snacksSlice = createSlice({
   },
 });
 
+export const selectSnacks = (state) => state.snacks.data;
+
 export const { removeSnack, sendSnack } = snacksSlice.actions;
 
 export default snacksSlice.reducer;

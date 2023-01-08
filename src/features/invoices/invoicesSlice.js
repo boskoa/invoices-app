@@ -29,7 +29,6 @@ export const getAllInvoices = createAsyncThunk(
 export const postNewInvoice = createAsyncThunk(
   "invoices/postNewInvoice",
   async (data) => {
-    console.log("NEW INVOICE", data);
     const newInvoice = {
       id: data.id,
       date: data.date,
@@ -38,6 +37,7 @@ export const postNewInvoice = createAsyncThunk(
       sellerId: data.sellerId,
     };
     const response = await axios.post(INVOICES_URL, newInvoice);
+
     return {
       ...response.data,
       customer: data.customer,
@@ -56,8 +56,8 @@ export const editInvoice = createAsyncThunk(
       customerId: updates.customerId,
       sellerId: updates.sellerId,
     };
-    console.log("AXIOS PATCH", updates);
     const response = await axios.patch(`${INVOICES_URL}/${id}`, toUpdate);
+
     return {
       ...response.data,
       customer: updates.customer,
@@ -100,12 +100,8 @@ const invoicesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(postNewInvoice.pending, (state) => {
-        state.loading = true;
-      })
       .addCase(postNewInvoice.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("AXIOS POST", action.payload);
         const invoice = {
           id: action.payload.id,
           date: action.payload.date,
@@ -120,9 +116,6 @@ const invoicesSlice = createSlice({
       .addCase(postNewInvoice.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      })
-      .addCase(editInvoice.pending, (state) => {
-        state.loading = true;
       })
       .addCase(editInvoice.fulfilled, (state, action) => {
         state.loading = false;
@@ -140,9 +133,6 @@ const invoicesSlice = createSlice({
       .addCase(editInvoice.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-      })
-      .addCase(deleteInvoice.pending, (state) => {
-        state.loading = true;
       })
       .addCase(deleteInvoice.fulfilled, (state, action) => {
         state.loading = false;

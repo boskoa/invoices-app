@@ -7,13 +7,8 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { useEffect } from "react";
 
 function DataTable({ rows, columns, selected, setSelected }) {
-  useEffect(() => {
-    console.log("SELECTED", selected);
-  }, [selected]);
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

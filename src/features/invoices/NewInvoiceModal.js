@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ModalTemplate from "../../components/ModalTemplate";
+import useSnack from "../../hooks/useSnacks";
 import { amountValidator, dateValidator } from "../../utils/validators";
 import { selectAllCustomers } from "../customers/customersSlice";
 import { selectAllSellers } from "../sellers/sellersSlice";
@@ -27,7 +28,8 @@ function NewInvoiceModal({ open, setOpen }) {
   const [customerError, setCustomerError] = useState("");
   const sellers = useSelector(selectAllSellers);
   const customers = useSelector(selectAllCustomers);
-  const id = Math.max(useSelector(selectInvoiceIds));
+  const id = Math.max(useSelector(selectInvoiceIds)) + 1;
+  const activateSnack = useSnack();
   const dispatch = useDispatch();
 
   function handleAmount(e) {
@@ -62,26 +64,23 @@ function NewInvoiceModal({ open, setOpen }) {
         setAmountError("Amount must be set");
       }
     } else {
-      try {
-        dispatch(
-          postNewInvoice({
-            id,
-            date: date.toString(),
-            amount,
-            customerId: Number(customer),
-            sellerId: Number(seller),
-            customer: customers.find((c) => c.id === customer),
-            seller: sellers.find((s) => s.id === seller),
-          })
-        );
-        setOpen(false);
-        setAmount("");
-        setSeller("");
-        setCustomer("");
-        setDateInput("");
-      } catch (error) {
-        console.log("ERROR", error);
-      }
+      dispatch(
+        postNewInvoice({
+          id,
+          date: date.toString(),
+          amount,
+          customerId: Number(customer),
+          sellerId: Number(seller),
+          customer: customers.find((c) => c.id === customer),
+          seller: sellers.find((s) => s.id === seller),
+        })
+      );
+      activateSnack("success", "Invoice created");
+      setOpen(false);
+      setAmount("");
+      setSeller("");
+      setCustomer("");
+      setDateInput("");
     }
     return;
   }

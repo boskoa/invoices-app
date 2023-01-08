@@ -2,6 +2,7 @@ import { Stack } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import DataTable from "../../components/DataTable";
+import Loading from "../../components/Loading";
 import PageTitle from "../../components/PageTitle";
 import TableButtons from "../../components/TableButtons";
 import {
@@ -37,7 +38,7 @@ function Sellers() {
   ];
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {

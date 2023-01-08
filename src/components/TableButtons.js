@@ -12,7 +12,7 @@ function TableButtons({
   handleRemove,
 }) {
   const navigate = useNavigate();
-  console.log("TABLE BUTTONS", `${path}/${selected}`);
+
   return (
     <ButtonGroup
       aria-label="table button group"
