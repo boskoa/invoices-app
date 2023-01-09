@@ -1,7 +1,7 @@
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PeopleIcon from "@mui/icons-material/People";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -60,7 +60,7 @@ function NavBar() {
           value="/customers"
           title="Customers"
         >
-          <ShoppingCartIcon />
+          <PeopleIcon />
         </ToggleButton>
       </ToggleButtonGroup>
     </Box>

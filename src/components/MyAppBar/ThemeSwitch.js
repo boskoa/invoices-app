@@ -15,7 +15,9 @@ function ThemeSwitch() {
 
   useEffect(() => {
     const oldTheme = window.localStorage.getItem("invoiceAppTheme");
-    dispatch(changeTheme(oldTheme));
+    if (oldTheme) {
+      dispatch(changeTheme(oldTheme));
+    }
   }, []);
 
   return (

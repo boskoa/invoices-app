@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ModalTemplate from "../../components/ModalTemplate";
 import useSnack from "../../hooks/useSnacks";
 import { selectCustomerIds } from "../customers/customersSlice";
-import { postNewSeller } from "./sellersSlice";
+import { postNewSeller, selectSellerNames } from "./sellersSlice";
 
 function NewSellerModal({ open, setOpen }) {
   const [companyName, setCompanyName] = useState("");
@@ -20,16 +20,24 @@ function NewSellerModal({ open, setOpen }) {
   const [hqAddressError, setHqAddressError] = useState("");
   const [isActive, setIsActive] = useState(true);
   const id = Math.max(useSelector(selectCustomerIds)) + 1;
+  const sellerNames = useSelector(selectSellerNames);
   const activateSnack = useSnack();
   const dispatch = useDispatch();
 
   function handleNewSeller() {
-    if (!companyName.length || !hqAddress.length) {
+    if (
+      !companyName.length ||
+      !hqAddress.length ||
+      sellerNames.includes(companyName)
+    ) {
       if (!companyName.length) {
         setCompanyNameError("Company name is mandatory");
       }
       if (!hqAddress.length) {
         setHqAddressError("Address is mandatory");
+      }
+      if (sellerNames.includes(companyName)) {
+        return activateSnack("error", "That seller already exists");
       }
     } else {
       try {

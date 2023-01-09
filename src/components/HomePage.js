@@ -1,12 +1,16 @@
-import styled from "@emotion/styled";
-import { Paper, Stack, Typography } from "@mui/material";
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  width: "200px",
-  margin: "1rem",
-  padding: "1em",
-  backgroundColor: theme.palette.warning.contrastText,
-}));
+import {
+  Timeline,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineItem,
+  TimelineSeparator,
+} from "@mui/lab";
+import { IconButton, Stack, Typography } from "@mui/material";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import PeopleIcon from "@mui/icons-material/People";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
@@ -15,24 +19,55 @@ function HomePage() {
       justifyContent="center"
       alignItems="center"
     >
-      <StyledPaper elevation={3}>
-        <Typography variant="h6">Invoices</Typography>
-        <Typography variant="body2">
-          See all invoices, create new ones, edit or delete existing ones.
-        </Typography>
-      </StyledPaper>
-      <StyledPaper elevation={3}>
-        <Typography variant="h6">Sellers</Typography>
-        <Typography variant="body2">
-          See all sellers, create new ones, edit or delete existing ones.
-        </Typography>
-      </StyledPaper>
-      <StyledPaper elevation={3}>
-        <Typography variant="h6">Customers</Typography>
-        <Typography variant="body2">
-          See all customers, create new ones, edit or delete existing ones.
-        </Typography>
-      </StyledPaper>
+      <Timeline position="alternate">
+        <TimelineItem>
+          <TimelineSeparator>
+            <TimelineDot color="success">
+              <IconButton component={Link} to="/sellers" color="inherit">
+                <StorefrontIcon />
+              </IconButton>
+            </TimelineDot>
+            <TimelineConnector sx={{ height: "5rem" }} />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography variant="body2">
+              See all sellers data, create new sellers, edit or delete existing
+              ones, track inactive subjects.
+            </Typography>
+          </TimelineContent>
+        </TimelineItem>
+        <TimelineItem>
+          <TimelineSeparator>
+            <TimelineDot color="info">
+              <IconButton component={Link} to="/customers" color="inherit">
+                <PeopleIcon />
+              </IconButton>
+            </TimelineDot>
+            <TimelineConnector sx={{ height: "5rem" }} />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography variant="body2">
+              See all customers, create new ones, edit or delete existing ones,
+              sort them by any property.
+            </Typography>
+          </TimelineContent>
+        </TimelineItem>
+        <TimelineItem>
+          <TimelineSeparator>
+            <TimelineDot color="warning">
+              <IconButton component={Link} to="/invoices" color="inherit">
+                <ReceiptLongIcon />
+              </IconButton>
+            </TimelineDot>
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography variant="body2">
+              Track all invoices, create new ones (if the seller is active),
+              edit or delete existing ones.
+            </Typography>
+          </TimelineContent>
+        </TimelineItem>
+      </Timeline>
     </Stack>
   );
 }

@@ -118,10 +118,13 @@ export function selectSellersError(state) {
   return state.customers.error;
 }
 
+export const selectSellerNames = createSelector(selectAllSellers, (sellers) =>
+  sellers.map((s) => s.companyName)
+);
+
 export const selectSortedSellers = createSelector(
   [selectAllSellers, (state) => state.sellers.sortBy],
   (sellers, criterium) => {
-    console.log("CUSTOMERS", criterium);
     if (criterium[1] === "asc") {
       return [...sellers].sort((a, b) =>
         a[criterium[0]]

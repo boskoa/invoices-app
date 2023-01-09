@@ -175,7 +175,6 @@ export function selectInvoicesError(state) {
 export const selectSortedInvoices = createSelector(
   [selectAllInvoices, (state) => state.invoices.sortBy],
   (invoices, criterium) => {
-    console.log("CUSTOMERS", criterium);
     if (criterium[1] === "asc") {
       return [...invoices].sort((a, b) =>
         a[criterium[0]]

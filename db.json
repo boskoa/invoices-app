@@ -29,6 +29,18 @@
       "companyName": "Nike",
       "isActive": true,
       "hqAddress": "Some street 58, Some City, USA"
+    },
+    {
+      "id": 5,
+      "companyName": "Adidas",
+      "isActive": true,
+      "hqAddress": "Herzogenaurach, Bavaria , Germany"
+    },
+    {
+      "id": 6,
+      "companyName": "Puma",
+      "isActive": true,
+      "hqAddress": "Herzogenaurach, Germany"
     }
   ],
   "customers": [
@@ -120,7 +132,7 @@
     },
     {
       "id": 34,
-      "date": "Sun Jan 08 2023 12:48:23 GMT+0100 (Central European Standard Time)",
+      "date": "Sun Jan 08 2023 12:00:00 GMT+0100 (Central European Standard Time)",
       "amount": 9856,
       "customerId": 1,
       "sellerId": 3

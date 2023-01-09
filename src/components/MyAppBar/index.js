@@ -6,7 +6,7 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import ThemeSwitch from "./ThemeSwitch";
 import { Link } from "react-router-dom";
 
@@ -31,7 +31,7 @@ function MyAppBar() {
               aria-label="home"
               sx={{ mr: 1 }}
             >
-              <AttachMoneyIcon />
+              <MonetizationOnOutlinedIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Invoices app
