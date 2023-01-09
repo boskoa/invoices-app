@@ -175,6 +175,19 @@ export function selectInvoicesError(state) {
 export const selectSortedInvoices = createSelector(
   [selectAllInvoices, (state) => state.invoices.sortBy],
   (invoices, criterium) => {
+    if (criterium[0] === "date") {
+      if (criterium[1] === "asc") {
+        return [...invoices].sort(
+          (a, b) => new Date(a.date) < new Date(b.date)
+        );
+      } else if (criterium[1] === "desc") {
+        return [...invoices].sort(
+          (a, b) => new Date(a.date) > new Date(b.date)
+        );
+      } else {
+        return invoices;
+      }
+    }
     if (criterium[1] === "asc") {
       return [...invoices].sort((a, b) =>
         a[criterium[0]]

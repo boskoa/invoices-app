@@ -41,6 +41,36 @@
       "companyName": "Puma",
       "isActive": true,
       "hqAddress": "Herzogenaurach, Germany"
+    },
+    {
+      "id": 7,
+      "companyName": "Benetton",
+      "isActive": true,
+      "hqAddress": "Ponzano Veneto , Italy"
+    },
+    {
+      "id": 8,
+      "companyName": "Amstel",
+      "isActive": true,
+      "hqAddress": "Zoeterwoude , Netherlands"
+    },
+    {
+      "id": 9,
+      "companyName": "Coca-Cola",
+      "isActive": true,
+      "hqAddress": "Atlanta, Georgia, US"
+    },
+    {
+      "id": 10,
+      "companyName": "Volvo",
+      "isActive": true,
+      "hqAddress": "Gothenburg, Sweden"
+    },
+    {
+      "id": 11,
+      "companyName": "Subaru",
+      "isActive": true,
+      "hqAddress": "Ebisu, Shibuya , Japan"
     }
   ],
   "customers": [
@@ -92,6 +122,48 @@
       "surname": "Unić",
       "age": 20,
       "address": "Gospodska Ulica 15, Banja Luka BiH"
+    },
+    {
+      "id": 8,
+      "name": "Michael",
+      "surname": "Scott",
+      "age": 50,
+      "address": "Street  23, Scranton, US"
+    },
+    {
+      "id": 9,
+      "name": "Dwight",
+      "surname": "Schrute",
+      "age": 40,
+      "address": "Street 56, Scranton, US"
+    },
+    {
+      "id": 10,
+      "name": "Jim",
+      "surname": "Halpert",
+      "age": 31,
+      "address": "Street 102, Scranton, US"
+    },
+    {
+      "id": 11,
+      "name": "Pam",
+      "surname": "Beesly",
+      "age": 31,
+      "address": "Street 102, Scranton, US"
+    },
+    {
+      "id": 12,
+      "name": "Angela",
+      "surname": "Martin",
+      "age": 35,
+      "address": "Street 56, Scranton, US"
+    },
+    {
+      "id": 13,
+      "name": "Stanley",
+      "surname": "Hudson",
+      "age": 65,
+      "address": "Street 89, Scranton, US"
     }
   ],
   "invoices": [
@@ -150,6 +222,97 @@
       "amount": 78945,
       "customerId": 2,
       "sellerId": 2
+    },
+    {
+      "id": 38,
+      "date": "Mon Jan 02 2023 12:00:00 GMT+0100 (Central European Standard Time)",
+      "amount": 1,
+      "customerId": 6,
+      "sellerId": 2
+    },
+    {
+      "id": 39,
+      "date": "Mon Jan 09 2023 12:00:00 GMT+0100 (Central European Standard Time)",
+      "amount": 12,
+      "customerId": 2,
+      "sellerId": 5
+    },
+    {
+      "id": 40,
+      "date": "Wed Jun 01 2022 12:00:00 GMT+0200 (Central European Summer Time)",
+      "amount": 987,
+      "customerId": 11,
+      "sellerId": 7
+    },
+    {
+      "id": 41,
+      "date": "Mon Jan 09 2023 12:21:02 GMT+0100 (Central European Standard Time)",
+      "amount": 987,
+      "customerId": 10,
+      "sellerId": 9
+    },
+    {
+      "id": 42,
+      "date": "Mon Jan 09 2023 12:21:19 GMT+0100 (Central European Standard Time)",
+      "amount": 9865,
+      "customerId": 13,
+      "sellerId": 11
+    },
+    {
+      "id": 43,
+      "date": "Mon Jan 09 2023 12:21:35 GMT+0100 (Central European Standard Time)",
+      "amount": 96325,
+      "customerId": 12,
+      "sellerId": 10
+    },
+    {
+      "id": 44,
+      "date": "Mon Jan 09 2023 12:21:57 GMT+0100 (Central European Standard Time)",
+      "amount": 9784,
+      "customerId": 9,
+      "sellerId": 8
+    },
+    {
+      "id": 45,
+      "date": "Mon Jan 09 2023 12:22:12 GMT+0100 (Central European Standard Time)",
+      "amount": 3215,
+      "customerId": 8,
+      "sellerId": 6
+    },
+    {
+      "id": 46,
+      "date": "Mon Jan 09 2023 12:22:37 GMT+0100 (Central European Standard Time)",
+      "amount": 2548,
+      "customerId": 12,
+      "sellerId": 8
+    },
+    {
+      "id": 47,
+      "date": "Mon Jan 09 2023 12:22:48 GMT+0100 (Central European Standard Time)",
+      "amount": 8754,
+      "customerId": 10,
+      "sellerId": 7
+    },
+    {
+      "id": 48,
+      "date": "Mon Jan 09 2023 12:23:00 GMT+0100 (Central European Standard Time)",
+      "amount": 4512,
+      "customerId": 11,
+      "sellerId": 5
+    },
+    {
+      "id": 49,
+      "date": "Mon Jan 09 2023 12:23:16 GMT+0100 (Central European Standard Time)",
+      "amount": 9658,
+      "customerId": 9,
+      "sellerId": 8
+    },
+    {
+      "id": 50,
+      "date": "Mon Jan 09 2023 12:23:57 GMT+0100 (Central European Standard Time)",
+      "amount": 9654,
+      "customerId": 13,
+      "sellerId": 9
     }
   ]
 }

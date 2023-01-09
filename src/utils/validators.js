@@ -3,8 +3,8 @@ export function amountValidator(n) {
     return "Please enter numeric value";
   }
 
-  if (n < 0) {
-    return "Value can't be less than zero";
+  if (n < 1) {
+    return "Value can't be less than 1";
   }
 
   return n;
