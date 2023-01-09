@@ -1,4 +1,4 @@
-### `npm start`
+### Invoices app
 
 Install packages
 
