@@ -14,8 +14,8 @@ const settingsSlice = createSlice({
   },
 });
 
-export const { changeTheme } = settingsSlice.actions;
-
 export const selectCurrentTheme = (state) => state.settings.theme;
+
+export const { changeTheme } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

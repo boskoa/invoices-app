@@ -26,7 +26,7 @@ function NewInvoiceModal({ open, setOpen }) {
   const [sellerError, setSellerError] = useState("");
   const [customer, setCustomer] = useState("");
   const [customerError, setCustomerError] = useState("");
-  const sellers = useSelector(selectAllSellers);
+  const sellers = useSelector(selectAllSellers).filter((s) => s.isActive);
   const customers = useSelector(selectAllCustomers);
   const id = Math.max(useSelector(selectInvoiceIds)) + 1;
   const activateSnack = useSnack();

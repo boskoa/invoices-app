@@ -1,6 +1,7 @@
 import {
   createAsyncThunk,
   createEntityAdapter,
+  createSelector,
   createSlice,
 } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -14,6 +15,7 @@ const invoicesAdapter = createEntityAdapter({
 const initialState = invoicesAdapter.getInitialState({
   loading: false,
   error: null,
+  sortBy: ["seller", "asc"],
 });
 
 export const getAllInvoices = createAsyncThunk(
@@ -80,7 +82,11 @@ export const deleteInvoice = createAsyncThunk(
 const invoicesSlice = createSlice({
   name: "invoices",
   initialState,
-  reducers: {},
+  reducers: {
+    changeInvoicesSort: (state, action) => {
+      state.sortBy = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllInvoices.pending, (state) => {
@@ -165,5 +171,31 @@ export function selectInvoicesLoading(state) {
 export function selectInvoicesError(state) {
   return state.invoices.error;
 }
+
+export const selectSortedInvoices = createSelector(
+  [selectAllInvoices, (state) => state.invoices.sortBy],
+  (invoices, criterium) => {
+    console.log("CUSTOMERS", criterium);
+    if (criterium[1] === "asc") {
+      return [...invoices].sort((a, b) =>
+        a[criterium[0]]
+          .toString()
+          .localeCompare(b[criterium[0]].toString(), "en", { numeric: true })
+      );
+    } else if (criterium[1] === "desc") {
+      return [...invoices].sort((a, b) =>
+        b[criterium[0]]
+          .toString()
+          .localeCompare(a[criterium[0]].toString(), "en", {
+            numeric: true,
+          })
+      );
+    } else {
+      return invoices;
+    }
+  }
+);
+
+export const { changeInvoicesSort } = invoicesSlice.actions;
 
 export default invoicesSlice.reducer;

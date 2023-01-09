@@ -14,13 +14,13 @@ import EditSellerModal from "./EditSellerModal";
 import NewSellerModal from "./NewSellerModal";
 import {
   deleteSeller,
-  selectAllSellers,
   selectSellersError,
   selectSellersLoading,
+  selectSortedSellers,
 } from "./sellersSlice";
 
 function Sellers() {
-  const sellers = useSelector(selectAllSellers);
+  const sellers = useSelector(selectSortedSellers);
   const loading = useSelector(selectSellersLoading);
   const error = useSelector(selectSellersError);
   const invoices = useSelector(selectAllInvoices);
@@ -39,25 +39,32 @@ function Sellers() {
     [invoices]
   );
 
-  const columns = [
-    {
-      name: "companyName",
-      display: "Company name",
-    },
-    {
-      name: "hqAddress",
-      display: "HQ address",
-    },
-    {
-      name: "id",
-      display: "ID",
-    },
-    {
-      name: "isActive",
-      display: "Active",
-      format: (value) => value.toString(),
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        category: "sellers",
+        name: "companyName",
+        display: "Company name",
+      },
+      {
+        category: "sellers",
+        name: "hqAddress",
+        display: "HQ address",
+      },
+      {
+        category: "sellers",
+        name: "id",
+        display: "ID",
+      },
+      {
+        category: "sellers",
+        name: "isActive",
+        display: "Active",
+        format: (value) => value.toString(),
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     if (id) {
@@ -96,7 +103,7 @@ function Sellers() {
     }
   }
 
-  if (loading) {
+  if (loading || !sellers) {
     return <Loading />;
   }
 

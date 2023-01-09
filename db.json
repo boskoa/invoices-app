@@ -23,6 +23,12 @@
       "companyName": "Amazon",
       "hqAddress": "Seattle, Washington, U.S",
       "isActive": true
+    },
+    {
+      "id": 4,
+      "companyName": "Nike",
+      "isActive": true,
+      "hqAddress": "Some street 58, Some City, USA"
     }
   ],
   "customers": [

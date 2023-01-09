@@ -11,16 +11,16 @@ import useSnack from "../../hooks/useSnacks";
 import { selectAllInvoices } from "../invoices/invoicesSlice";
 import {
   deleteCustomer,
-  selectAllCustomers,
   selectCustomersError,
   selectCustomersLoading,
+  selectSortedCustomers,
 } from "./customersSlice";
 import DeleteCustomersModal from "./DeleteCustomersModal";
 import EditCustomerModal from "./EditCustomerModal";
 import NewCustomerModal from "./NewCustomerModal";
 
 function Customers() {
-  const customers = useSelector(selectAllCustomers);
+  const customers = useSelector(selectSortedCustomers);
   const loading = useSelector(selectCustomersLoading);
   const error = useSelector(selectCustomersError);
   const invoices = useSelector(selectAllInvoices);
@@ -39,28 +39,36 @@ function Customers() {
     [invoices]
   );
 
-  const columns = [
-    {
-      name: "name",
-      display: "Name",
-    },
-    {
-      name: "surname",
-      display: "Surname",
-    },
-    {
-      name: "age",
-      display: "Age",
-    },
-    {
-      name: "id",
-      display: "ID",
-    },
-    {
-      name: "address",
-      display: "Address",
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        category: "customers",
+        name: "name",
+        display: "Name",
+      },
+      {
+        category: "customers",
+        name: "surname",
+        display: "Surname",
+      },
+      {
+        category: "customers",
+        name: "age",
+        display: "Age",
+      },
+      {
+        category: "customers",
+        name: "id",
+        display: "ID",
+      },
+      {
+        category: "customers",
+        name: "address",
+        display: "Address",
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     if (id) {
@@ -99,7 +107,7 @@ function Customers() {
     }
   }
 
-  if (loading) {
+  if (loading || !customers) {
     return <Loading />;
   }
 

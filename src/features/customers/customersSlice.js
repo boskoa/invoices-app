@@ -1,6 +1,7 @@
 import {
   createAsyncThunk,
   createEntityAdapter,
+  createSelector,
   createSlice,
 } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -14,6 +15,7 @@ const customersAdapter = createEntityAdapter({
 const initialState = customersAdapter.getInitialState({
   loading: false,
   error: null,
+  sortBy: ["name", "asc"],
 });
 
 export const getAllCustomers = createAsyncThunk(
@@ -55,7 +57,11 @@ export const editCustomer = createAsyncThunk(
 const customersSlice = createSlice({
   name: "customers",
   initialState,
-  reducers: {},
+  reducers: {
+    changeCustomersSort: (state, action) => {
+      state.sortBy = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllCustomers.pending, (state) => {
@@ -112,5 +118,31 @@ export function selectCustomersLoading(state) {
 export function selectCustomersError(state) {
   return state.customers.error;
 }
+
+export const selectSortedCustomers = createSelector(
+  [selectAllCustomers, (state) => state.customers.sortBy],
+  (customers, criterium) => {
+    console.log("CUSTOMERS", criterium);
+    if (criterium[1] === "asc") {
+      return [...customers].sort((a, b) =>
+        a[criterium[0]]
+          .toString()
+          .localeCompare(b[criterium[0]].toString(), "en", { numeric: true })
+      );
+    } else if (criterium[1] === "desc") {
+      return [...customers].sort((a, b) =>
+        b[criterium[0]]
+          .toString()
+          .localeCompare(a[criterium[0]].toString(), "en", {
+            numeric: true,
+          })
+      );
+    } else {
+      return customers;
+    }
+  }
+);
+
+export const { changeCustomersSort } = customersSlice.actions;
 
 export default customersSlice.reducer;

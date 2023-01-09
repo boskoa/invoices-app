@@ -1,4 +1,11 @@
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -89,6 +96,18 @@ function EditSellerModal({ open, setOpen, path }) {
         onChange={(e) => setHqAddress(e.target.value)}
         helperText={hqAddressError}
       />
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              color="success"
+              checked={isActive}
+              onChange={() => setIsActive((prev) => !prev)}
+            />
+          }
+          label="Is active"
+        />
+      </FormGroup>
       <Button
         size="small"
         variant="contained"

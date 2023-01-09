@@ -1,6 +1,11 @@
 import { Box } from "@mui/material";
 import { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import AllProviders from "./AllProviders";
 import HomePage from "./components/HomePage";
 import PageContainer from "./components/PageContainer";
@@ -80,6 +85,7 @@ function App() {
                 />
               </Route>
               <Route path="/" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Snack />
           </PageContainer>

@@ -12,7 +12,6 @@ function TableButtons({
   path,
 }) {
   const navigate = useNavigate();
-  console.log("EDIT SELECTED", selected);
 
   return (
     <ButtonGroup

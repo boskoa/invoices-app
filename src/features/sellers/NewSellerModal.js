@@ -1,4 +1,11 @@
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ModalTemplate from "../../components/ModalTemplate";
@@ -52,7 +59,7 @@ function NewSellerModal({ open, setOpen }) {
         size="small"
         label={
           <Typography sx={{ mt: "3px" }} variant="subtitle2">
-            Enter name
+            Enter company name
           </Typography>
         }
         error={Boolean(companyNameError)}
@@ -65,7 +72,7 @@ function NewSellerModal({ open, setOpen }) {
         size="small"
         label={
           <Typography sx={{ mt: "3px" }} variant="subtitle2">
-            Enter surname
+            Enter HQ address
           </Typography>
         }
         error={Boolean(hqAddressError)}
@@ -74,6 +81,18 @@ function NewSellerModal({ open, setOpen }) {
         onChange={(e) => setHqAddress(e.target.value)}
         helperText={hqAddressError}
       />
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              color="success"
+              checked={isActive}
+              onChange={() => setIsActive((prev) => !prev)}
+            />
+          }
+          label="Is active"
+        />
+      </FormGroup>
       <Button
         size="small"
         variant="contained"

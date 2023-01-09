@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import DataTable from "../../components/DataTable";
@@ -14,9 +14,9 @@ import DeleteInvoicesModal from "./DeleteInvoicesModal";
 import EditInvoiceModal from "./EditInvoiceModal";
 import {
   deleteInvoice,
-  selectAllInvoices,
   selectInvoicesError,
   selectInvoicesLoading,
+  selectSortedInvoices,
 } from "./invoicesSlice";
 import NewInvoiceModal from "./NewInvoiceModal";
 
@@ -26,7 +26,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 function Invoices() {
-  const invoices = useSelector(selectAllInvoices);
+  const invoices = useSelector(selectSortedInvoices);
   const loading = useSelector(selectInvoicesLoading);
   const error = useSelector(selectInvoicesError);
   const customers = useSelector(selectAllCustomers);
@@ -42,55 +42,62 @@ function Invoices() {
   const dispatch = useDispatch();
   const activateSnack = useSnack();
 
-  const columns = [
-    {
-      name: "seller",
-      display: "Seller",
-      format: (value) => {
-        const sellerId = sellers.find((s) => value === s.companyName).id;
-        return (
-          <Link
-            style={{ textDecoration: "none", color: "inherit" }}
-            to={`/sellers/${sellerId}`}
-          >
-            {value}
-          </Link>
-        );
+  const columns = useMemo(
+    () => [
+      {
+        category: "invoices",
+        name: "seller",
+        display: "Seller",
+        format: (value) => {
+          const sellerId = sellers?.find((s) => value === s.companyName).id;
+          return (
+            <Link
+              style={{ textDecoration: "none", color: "inherit" }}
+              to={`/sellers/${sellerId}`}
+            >
+              {value}
+            </Link>
+          );
+        },
       },
-    },
-    {
-      name: "customer",
-      display: "Customer",
-      format: (value) => {
-        const customerId = customers.find(
-          (s) => value === `${s.name} ${s.surname}`
-        ).id;
-        return (
-          <Link
-            style={{ textDecoration: "none", color: "inherit" }}
-            to={`/customers/${customerId}`}
-          >
-            {value}
-          </Link>
-        );
+      {
+        category: "invoices",
+        name: "customer",
+        display: "Customer",
+        format: (value) => {
+          const customerId = customers?.find(
+            (s) => value === `${s.name} ${s.surname}`
+          ).id;
+          return (
+            <Link
+              style={{ textDecoration: "none", color: "inherit" }}
+              to={`/customers/${customerId}`}
+            >
+              {value}
+            </Link>
+          );
+        },
       },
-    },
-    {
-      name: "date",
-      display: "Date",
-      format: (value) => {
-        const date = new Date(value);
-        return `${date.getUTCDate()}.${
-          date.getUTCMonth() + 1
-        }.${date.getUTCFullYear()}`;
+      {
+        category: "invoices",
+        name: "date",
+        display: "Date",
+        format: (value) => {
+          const date = new Date(value);
+          return `${date.getUTCDate()}.${
+            date.getUTCMonth() + 1
+          }.${date.getUTCFullYear()}`;
+        },
       },
-    },
-    {
-      name: "amount",
-      display: "Amount",
-      format: (value) => formatter.format(value),
-    },
-  ];
+      {
+        category: "invoices",
+        name: "amount",
+        display: "Amount",
+        format: (value) => formatter.format(value),
+      },
+    ],
+    [sellers, customers]
+  );
 
   useEffect(() => {
     if (id) {
@@ -113,7 +120,7 @@ function Invoices() {
     }
   }
 
-  if (loading) {
+  if (loading || !sellers || !customers) {
     return <Loading />;
   }
 

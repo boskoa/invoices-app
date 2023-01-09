@@ -1,52 +1,21 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@mui/material";
+import { Table, TableBody, TableContainer, Paper } from "@mui/material";
+import TableHeadComp from "./DataTable/TableHeadComp";
+import TableRowComp from "./DataTable/TableRowComp";
 
 function DataTable({ rows, columns, selected, setSelected }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            {columns.map((c) => (
-              <TableCell key={c.name} align="center">
-                <strong>{c.display}</strong>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <TableHeadComp columns={columns} />
         <TableBody>
           {rows.map((row) => (
-            <TableRow
+            <TableRowComp
               key={row.id || Math.floor(Math.random() * 1000000)}
-              value={row.id}
-              onClick={() => {
-                if (selected.includes(row.id)) {
-                  setSelected((prev) => prev.filter((i) => i !== row.id));
-                } else {
-                  setSelected((prev) => [...prev, row.id]);
-                }
-              }}
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-                backgroundColor: selected.includes(row.id) && "warning.main",
-                transition: "background-color 0.7s",
-              }}
-            >
-              {columns.map((c) => {
-                return (
-                  <TableCell key={c.name} align="center">
-                    {c.format ? c.format(row[c.name]) : row[c.name]}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
+              row={row}
+              columns={columns}
+              selected={selected}
+              setSelected={setSelected}
+            />
           ))}
         </TableBody>
       </Table>
