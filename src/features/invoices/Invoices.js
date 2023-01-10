@@ -10,6 +10,7 @@ import TableButtons from "../../components/TableButtons";
 import useSnack from "../../hooks/useSnacks";
 import { selectAllCustomers } from "../customers/customersSlice";
 import { selectAllSellers } from "../sellers/sellersSlice";
+import { changeSorter } from "../settings/settingsSlice";
 import DeleteInvoicesModal from "./DeleteInvoicesModal";
 import EditInvoiceModal from "./EditInvoiceModal";
 import {
@@ -48,6 +49,8 @@ function Invoices() {
         category: "invoices",
         name: "seller",
         display: "Seller",
+        minWidth: 140,
+        align: "left",
         format: (value) => {
           const sellerId = sellers?.find((s) => value === s.companyName).id;
           return (
@@ -64,6 +67,8 @@ function Invoices() {
         category: "invoices",
         name: "customer",
         display: "Customer",
+        minWidth: 160,
+        align: "left",
         format: (value) => {
           const customerId = customers?.find(
             (s) => value === `${s.name} ${s.surname}`
@@ -82,6 +87,8 @@ function Invoices() {
         category: "invoices",
         name: "date",
         display: "Date",
+        minWidth: 130,
+        align: "center",
         format: (value) => {
           const date = new Date(value);
           return `${date.getUTCDate()}.${
@@ -93,6 +100,8 @@ function Invoices() {
         category: "invoices",
         name: "amount",
         display: "Amount",
+        minWidth: 150,
+        align: "right",
         format: (value) => formatter.format(value),
       },
     ],
@@ -100,6 +109,7 @@ function Invoices() {
   );
 
   useEffect(() => {
+    dispatch(changeSorter("seller"));
     if (id) {
       setSelected([Number(id)]);
       setOpenEditModal(true);

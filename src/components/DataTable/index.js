@@ -1,6 +1,6 @@
 import { Table, TableBody, TableContainer, Paper } from "@mui/material";
-import TableHeadComp from "./DataTable/TableHeadComp";
-import TableRowComp from "./DataTable/TableRowComp";
+import TableHeadComp from "./TableHeadComp";
+import TableRowComp from "./TableRowComp";
 
 function DataTable({ rows, columns, selected, setSelected }) {
   return (

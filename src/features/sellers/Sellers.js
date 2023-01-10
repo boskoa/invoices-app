@@ -9,6 +9,7 @@ import PaginationBox from "../../components/PaginationBox";
 import TableButtons from "../../components/TableButtons";
 import useSnack from "../../hooks/useSnacks";
 import { selectAllInvoices } from "../invoices/invoicesSlice";
+import { changeSorter } from "../settings/settingsSlice";
 import DeleteSellersModal from "./DeleteSellersModal";
 import EditSellerModal from "./EditSellerModal";
 import NewSellerModal from "./NewSellerModal";
@@ -45,21 +46,29 @@ function Sellers() {
         category: "sellers",
         name: "companyName",
         display: "Company name",
+        minWidth: 190,
+        align: "left",
       },
       {
         category: "sellers",
         name: "hqAddress",
         display: "HQ address",
+        minWidth: 200,
+        align: "left",
       },
       {
         category: "sellers",
         name: "id",
         display: "ID",
+        minWidth: 90,
+        align: "center",
       },
       {
         category: "sellers",
         name: "isActive",
         display: "Active",
+        minWidth: 120,
+        align: "center",
         format: (value) => value.toString(),
       },
     ],
@@ -67,6 +76,7 @@ function Sellers() {
   );
 
   useEffect(() => {
+    dispatch(changeSorter("companyName"));
     if (id) {
       setSelected([Number(id)]);
       setOpenEditModal(true);

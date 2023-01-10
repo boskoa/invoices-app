@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   theme: "dark",
+  sorter: "",
 };
 
 const settingsSlice = createSlice({
@@ -11,11 +12,20 @@ const settingsSlice = createSlice({
     changeTheme: (state, action) => {
       state.theme = action.payload;
     },
+    changeSorter: (state, action) => {
+      state.sorter = action.payload;
+    },
   },
 });
 
-export const selectCurrentTheme = (state) => state.settings.theme;
+export function selectCurrentTheme(state) {
+  return state.settings.theme;
+}
 
-export const { changeTheme } = settingsSlice.actions;
+export function selectCurrentSorter(state) {
+  return state.settings.sorter;
+}
+
+export const { changeTheme, changeSorter } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

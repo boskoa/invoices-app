@@ -7,6 +7,7 @@ const TitleBox = styled(Chip)(() => ({
   width: "150px",
   position: "sticky",
   top: 10,
+  zIndex: 10,
 }));
 
 function PageTitle({ title }) {

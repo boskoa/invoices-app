@@ -19,7 +19,7 @@ function TableRowComp({ row, columns, selected, setSelected }) {
     >
       {columns.map((c) => {
         return (
-          <TableCell key={c.name} align="center">
+          <TableCell key={c.name} align={c.align}>
             {c.format ? c.format(row[c.name]) : row[c.name]}
           </TableCell>
         );

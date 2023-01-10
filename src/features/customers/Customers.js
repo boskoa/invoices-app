@@ -9,6 +9,7 @@ import PaginationBox from "../../components/PaginationBox";
 import TableButtons from "../../components/TableButtons";
 import useSnack from "../../hooks/useSnacks";
 import { selectAllInvoices } from "../invoices/invoicesSlice";
+import { changeSorter } from "../settings/settingsSlice";
 import {
   deleteCustomer,
   selectCustomersError,
@@ -45,32 +46,43 @@ function Customers() {
         category: "customers",
         name: "name",
         display: "Name",
+        minWidth: 130,
+        align: "left",
       },
       {
         category: "customers",
         name: "surname",
         display: "Surname",
+        minWidth: 140,
+        align: "left",
       },
       {
         category: "customers",
         name: "age",
         display: "Age",
+        minWidth: 100,
+        align: "center",
       },
       {
         category: "customers",
         name: "id",
         display: "ID",
+        minWidth: 90,
+        align: "center",
       },
       {
         category: "customers",
         name: "address",
         display: "Address",
+        minWidth: 170,
+        align: "left",
       },
     ],
     []
   );
 
   useEffect(() => {
+    dispatch(changeSorter("name"));
     if (id) {
       setSelected([Number(id)]);
       setOpenEditModal(true);
