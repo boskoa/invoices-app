@@ -6,4 +6,4 @@ Install packages
 to start JSON server
 
 `npm start`
-to start app
+to start the app
